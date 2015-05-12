@@ -31,78 +31,7 @@ PACKAGE = "pythondialog"
 # This is OK because dialog.py has no dependency outside the standard library.
 from dialog import __version__ as VERSION
 
-
-def run_gitlog_to_changelog(after_this_commit, output=None):
-    args = [ "gitlog-to-changelog", "--format=%s%n%n%b%n", "--",
-             "{0}..".format(after_this_commit) ]
-    try:
-        subprocess.check_call(args, stdout=output)
-    except os.error:
-        print(traceback.format_exc(), file=sys.stderr)
-
-        # If the following message contained non-ASCII characters and stderr
-        # were not a tty (e.g., redirection or pipe), this would fail in
-        # Python 2. demo.py has the correct infrastructure for this issue,
-        # however this would be a bit overkill here.
-        print("""\
-Error (see above for a traceback): unable to run {prg}
-================================================={underlining}
-Maybe this program is not installed on your system. You can download it from:
-
-  {url}
-
-Note: if you have problems with the infamous shell+Perl crap in the first lines
-of that file, you can replace it with a simple shebang line such as
-"#! /usr/bin/perl".""".format(
-   prg=args[0],
-   underlining="=" * len(args[0]),
-   url="http://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=blob_plain;"
-       "f=build-aux/gitlog-to-changelog"), file=sys.stderr)
-        sys.exit(1)
-
-
-def generate_changelog(ch_name, write_to_stdout=False):
-    print("Converting the Git log into ChangeLog format...", end=' ',
-          file=sys.stderr)
-    orig_ch_name = "{0}.init".format(ch_name)
-    # Most recent commit in the file referenced by 'orig_ch_name' (normally,
-    # ChangeLog.init)
-    last_commit_in_ch_init = "b69a76b550d62fd5965a3e37957aa3fbc11e1a5f"
-
-    if write_to_stdout:
-        run_gitlog_to_changelog(last_commit_in_ch_init)
-
-        with open(orig_ch_name, "r", encoding="utf-8") as orig_ch:
-            # Make sure the output is encoded in UTF-8
-            sys.stdout.write(("\n" + orig_ch.read()).encode("utf-8"))
-    else:
-        tmp_ch_name = "{0}.new".format(ch_name)
-
-        try:
-            with open(tmp_ch_name, "w", encoding="utf-8") as tmp_ch:
-                run_gitlog_to_changelog(last_commit_in_ch_init, output=tmp_ch)
-
-                with open(orig_ch_name, "r", encoding="utf-8") as orig_ch:
-                    tmp_ch.write("\n" + orig_ch.read())
-
-            os.rename(tmp_ch_name, ch_name)
-        finally:
-            if os.path.exists(tmp_ch_name):
-                os.unlink(tmp_ch_name)
-
-    print("done.", file=sys.stderr)
-
-
 def main():
-    ch_name = "ChangeLog"
-    if os.path.isdir(".git"):
-        generate_changelog(ch_name)
-    elif not os.path.isfile(ch_name):
-        msg = """\
-There is no '{cl}' file here and it seems you are not operating from a
-clone of the Git repository (no .git directory); therefore, it is impossible to
-generate the '{cl}' file from the Git log. Aborting.""".format(cl=ch_name)
-        sys.exit(msg)
 
     with open("README.rst", "r", encoding="utf-8") as f:
         long_description = f.read()
