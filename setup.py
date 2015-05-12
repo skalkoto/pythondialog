@@ -36,7 +36,7 @@ def main():
     with open("README.rst", "r", encoding="utf-8") as f:
         long_description = f.read()
 
-    setup(name="python2-{0}".format(PACKAGE),
+    setup(name=PACKAGE,
           version=VERSION,
           description="A Python interface to the UNIX dialog utility and "
           "mostly-compatible programs (Python 2 backport)",
