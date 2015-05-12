@@ -1,0 +1,23 @@
+#!/usr/bin/make -f
+
+export PYBUILD_NAME=dialog
+
+PKG := python-$(PYBUILD_NAME)
+PKGDIR := debian/$(PKG)
+PKGDOCDIR := $(PKGDIR)/usr/share/doc/$(PKG)
+
+%:
+	dh $@ --with python2,sphinxdoc --buildsystem=pybuild
+
+override_dh_clean:
+	dh_clean
+	rm -rf debian/doc-build
+
+override_dh_auto_build:
+	dh_auto_build
+	# Build the Sphinx-based documentation
+	PYTHONPATH=. http_proxy='127.0.0.1:9' \
+	  sphinx-build -N -b html doc debian/doc-build/html
+
+override_dh_compress:
+	dh_compress -X.py

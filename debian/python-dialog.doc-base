@@ -1,0 +1,16 @@
+Document: pythondialog-manual
+Title: pythondialog Manual
+Author: Florent Rougon, Thomas Dickey
+Abstract: This manual documents pythondialog, a Python wrapper for the dialog
+ utility originally written by Savio Lam, and later rewritten by Thomas E.
+ Dickey. Its purpose is to provide an easy to use, pythonic and comprehensive
+ Python interface to dialog. This allows one to make simple text-mode user
+ interfaces on Unix-like systems.
+Section: Programming/Python
+
+Format: Text
+Files: /usr/share/doc/python-dialog/README.rst.gz
+
+Format: HTML
+Index: /usr/share/doc/python-dialog/html/index.html
+Files: /usr/share/doc/python-dialog/html/*

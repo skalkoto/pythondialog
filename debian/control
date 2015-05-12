@@ -1,0 +1,47 @@
+Source: pythondialog
+Maintainer: Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>
+Uploaders: Tristan Seligmann <mithrandi@debian.org>,
+ Florent Rougon <f.rougon@free.fr>
+Homepage: http://pythondialog.sourceforge.net/
+Section: python
+Priority: optional
+Build-Depends: debhelper (>= 9),
+               dh-python,
+               python-all,
+               python-doc,
+               python-docutils,
+               python-sphinx,
+               python-pygments
+Standards-Version: 3.9.6
+Vcs-Svn: svn://anonscm.debian.org/python-modules/packages/pythondialog/trunk/
+Vcs-Browser: http://anonscm.debian.org/viewvc/python-modules/packages/pythondialog/trunk/
+X-Python-Version: >= 2.7
+
+Package: python-dialog
+Architecture: all
+Depends: dialog, ${misc:Depends}, ${python:Depends}, ${sphinxdoc:Depends}
+Suggests: python-doc
+Description: Python module for making simple terminal-based user interfaces
+ pythondialog is a Python wrapper for the dialog utility originally
+ written by Savio Lam, and later rewritten by Thomas E. Dickey. Its
+ purpose is to provide an easy to use, pythonic and comprehensive Python
+ interface to dialog. This allows one to make simple text-mode user
+ interfaces on Unix-like systems.
+ .
+ pythondialog provides dialog boxes (widgets) of many different types.
+ Among these, one can find infobox, msgbox, yesno, menu, checklist,
+ radiolist, fselect (for selecting a file), rangebox, buildlist,
+ treeview, calendar. These widgets, and those not listed here, allow one
+ to build nice interfaces quickly and easily. However, it is not possible
+ to create new widgets without modifying dialog itself.
+ .
+ For most widgets, the following settings can be chosen:
+  * width, height and other parameters where applicable;
+  * two user-defined buttons, referred to as "Help" and "Extra", may be
+    added and their labels freely chosen.
+ Additionally, a color theme may be defined for all widgets via a
+ configuration file.
+ .
+ pythondialog has good Unicode support. Precisely, this support should be
+ as good as allowed by the combination of the Python interpreter, dialog,
+ the terminal and the locale settings in use.
